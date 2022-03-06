@@ -17,8 +17,9 @@ xception_model_path = os.path.join(my_path, "./models/Xception_model.h5")
 inceptionV3_model_path = os.path.join(my_path, "./models/InceptionV3_model.h5")
 
 
-def predict(image):
+def predict_single(image):
     image = [image]
+    # todo: change to ensemble
     model = load_model(mobileNet_model_path)
     batch_size = 1
     nb_samples = 1
@@ -42,6 +43,15 @@ def predict(image):
     df_file['category'] = np.argmax(predict, axis=-1)
     label_map = {0: 'Covid', 1: 'Normal', 2: 'Pneumonia'}
     df_file['category'] = df_file['category'].replace(label_map)
-    print(predict)
-    return  df_file['category'][0]
+    # print(predict[0])
+
+    labels = ['Covid', 'Normal', 'Pneumonia']
+    # probability.append( predict[0])
+    #
+    # pd_prob = pd.DataFrame(probability)
+    df = pd.DataFrame(
+        data = predict,
+        columns=labels)
+    # return df_file['category'][0], predict[0]
+    return df_file['category'][0], df
     # return str(df_file['category'][0])

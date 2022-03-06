@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from segmentation import show_predictions, predict_mask_and_write
 
-from classification import predict
+from classification import predict_single
 import numpy as np
 import os.path
 import tensorflow as tf
@@ -30,7 +30,7 @@ def load_image(image_file):
 
 
 def print_hi():
-    st.title("Hello")
+    st.title("Chest Xray Analysis")
 
     st.subheader("Image")
     image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
@@ -42,15 +42,22 @@ def print_hi():
         st.write(file_details)
 
         # To View Uploaded Image
-        st.image(load_image_and_save(image_file, img_path))  # load and save uploaded image
-        predict_mask_and_write(img_path)
+        st.image(load_image_and_save(image_file, img_path), width=100)  # load and save uploaded image
+        predict_mask_and_write(img_path)  # segmentation and lung extraction
         st.image(load_image(lung_extracted_path))
 
-        st.text(predict(lung_extracted_path))
+        prediction, prediction_probability = predict_single(lung_extracted_path)
+
+        st.subheader('Prediction')
+        st.write(prediction)
+
+        st.subheader('Prediction Probability')
+
+        st.table(prediction_probability)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     with tf.device('/CPU:0'):
-        # print_hi()
-        predict(lung_extracted_path)
+        print_hi()
+        # predict_single(lung_extracted_path)

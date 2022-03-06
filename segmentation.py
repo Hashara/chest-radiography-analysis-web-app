@@ -81,7 +81,7 @@ def display(display_list):
 
 def show_predictions(image):
     image = read_image(image)
-    pred_mask = model.predict(image) > 0.5
+    pred_mask = model.predict_single(image) > 0.5
     # print(pred_mask)
     display([image[0], create_mask(pred_mask)])
     # cv2.imwrite(segmented_mask_path, pred_mask)
