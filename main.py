@@ -1,30 +1,31 @@
 import streamlit as st
 from PIL import Image
 from segmentation import show_predictions, predict_mask_and_write
+
+from classification import predict
 import numpy as np
 import os.path
 import tensorflow as tf
 
-# try:
-#     # Disable all GPUS
-#     tf.config.set_visible_devices([], 'GPU')
-#     visible_devices = tf.config.get_visible_devices()
-#     for device in visible_devices:
-#         assert device.device_type != 'GPU'
-# except:
-#     # Invalid device or cannot modify virtual devices once initialized.
-#     pass
+# Place tensors on the CPU
+
 
 my_path = os.path.abspath(os.path.dirname(__file__))
 img_path = os.path.join(my_path, "img.jpeg")
 original_path = os.path.join(my_path, "original.jpeg")
+segmented_mask_path = os.path.join(my_path, "mask.jpeg")
+lung_extracted_path = os.path.join(my_path, "lung_extracted.jpeg")
+
+
+def load_image_and_save(image_file, path):
+    img = Image.open(image_file)
+
+    img.save(path)
+    return img
 
 
 def load_image(image_file):
-    print(image_file)
     img = Image.open(image_file)
-
-    img.save(img_path)
     return img
 
 
@@ -41,11 +42,15 @@ def print_hi():
         st.write(file_details)
 
         # To View Uploaded Image
-        st.image(load_image(image_file))
+        st.image(load_image_and_save(image_file, img_path))  # load and save uploaded image
         predict_mask_and_write(img_path)
+        st.image(load_image(lung_extracted_path))
+
+        st.text(predict(lung_extracted_path))
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi()
-    # predict_mask_and_write(original_path)
+    with tf.device('/CPU:0'):
+        # print_hi()
+        predict(lung_extracted_path)

@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import matplotlib.pyplot as plt
-import streamlit as st
+from scipy import ndimage
 import os.path
 
 H, W = 224, 224
@@ -10,6 +10,8 @@ input_shape = (H, W, 3)
 my_path = os.path.abspath(os.path.dirname(__file__))
 model_path = os.path.join(my_path, "./models/unet_model.hdf5")
 segmented_mask_path = os.path.join(my_path, "mask.jpeg")
+preprocessed_img_path = os.path.join(my_path, "preprocessed.jpeg")
+lung_extracted_path = os.path.join(my_path, "lung_extracted.jpeg")
 
 
 def iou(y_true, y_pred):
@@ -109,4 +111,24 @@ def predict_mask_and_write(image):
 
     # replaced_image = replace_pixels(ori_x, y_pred)
     # write image
+    y_pred = apply_morphology(y_pred)
+
     cv2.imwrite(segmented_mask_path, y_pred * 255)
+    cv2.imwrite(preprocessed_img_path, ori_x)
+    extracted = replace_pixels(image=cv2.imread(preprocessed_img_path), mask=cv2.imread(segmented_mask_path))
+    cv2.imwrite(lung_extracted_path, extracted)
+
+
+def apply_morphology(binary_img):
+    dl_img = ndimage.binary_dilation(binary_img, iterations=8, border_value=0, brute_force=False)
+
+    er_img = ndimage.binary_erosion(dl_img, iterations=6, border_value=1).astype(np.float32)
+
+    return er_img
+
+
+def replace_pixels(image, mask):
+    out = mask.copy()
+    out[mask == 255] = image[mask == 255]
+    # cv2_imshow(out)
+    return out
