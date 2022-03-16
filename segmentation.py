@@ -115,7 +115,13 @@ def predict_mask_and_write(image):
 
     cv2.imwrite(segmented_mask_path, y_pred * 255)
     cv2.imwrite(preprocessed_img_path, ori_x)
-    extracted = replace_pixels(image=cv2.imread(preprocessed_img_path), mask=cv2.imread(segmented_mask_path))
+    preprocessed_img = cv2.imread(preprocessed_img_path)
+    segmented_img = cv2.imread(segmented_mask_path)
+    resized_segmented_img = cv2.resize(segmented_img, (W, H))
+
+    extracted = cv2.bitwise_and(preprocessed_img, resized_segmented_img)
+
+    # extracted = replace_pixels(image=cv2.imread(preprocessed_img_path), mask=cv2.imread(segmented_mask_path))
     cv2.imwrite(lung_extracted_path, extracted)
 
 
