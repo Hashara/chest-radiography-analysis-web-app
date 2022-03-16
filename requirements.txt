@@ -1,4 +1,4 @@
-opencv-python
+opencv-python-headless
 tensorflow==2.8.0
 pandas==1.2.3
 keras==2.8.0
