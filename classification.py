@@ -24,7 +24,7 @@ def predict_single(image):
     # todo: change to ensemble
     model1_mobilenet = load_model(mobileNet_model_path)
     model2_resnet = load_model(resNet_model_path)
-    model3_xception = load_model(xception_model_path)
+    # model3_xception = load_model(xception_model_path)
     model4_inception = load_model(inceptionV3_model_path)
 
     # new_resnet = load_model(new_resNet_model_path)
