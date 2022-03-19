@@ -1,7 +1,6 @@
 import numpy as np
 import tensorflow as tf
 import cv2
-import matplotlib.pyplot as plt
 from scipy import ndimage
 import os.path
 
@@ -63,20 +62,6 @@ def create_mask(pred_mask):
     pred_mask = pred_mask.astype(np.int32)
     pred_mask = np.concatenate([pred_mask, pred_mask, pred_mask], axis=-1)
     return pred_mask * 255
-
-
-def display(display_list):
-    plt.figure(figsize=(15, 15))
-
-    title = ['Input Image', 'True Mask', 'Predicted Mask']
-
-    for i in range(len(display_list)):
-        fig, ax = plt.subplot(1, len(display_list), i + 1)
-        plt.title(title[i])
-        plt.imshow(tf.keras.preprocessing.image.array_to_img(display_list[i]))
-        plt.axis('off')
-    plt.show()
-    # st.pyplot()
 
 
 def show_predictions(image):
