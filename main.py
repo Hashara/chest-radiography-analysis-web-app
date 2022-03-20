@@ -1,11 +1,12 @@
+import os.path
+
+import matplotlib.pyplot as plt
 import streamlit as st
+import tensorflow as tf
 from PIL import Image
-from segmentation import show_predictions, predict_mask_and_write
 
 from classification import predict_single
-import numpy as np
-import os.path
-import tensorflow as tf
+from segmentation import predict_mask_and_write
 
 # Place tensors on the CPU
 
@@ -30,7 +31,7 @@ def load_image(image_file):
 
 
 def print_hi():
-    st.title("Chest Xray Analysis")
+    st.title("Chest Xray Analysis for Pneumonia and COVID-19")
 
     st.subheader("Image")
     image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
@@ -39,21 +40,53 @@ def print_hi():
         # To See details
         file_details = {"filename": image_file.name, "filetype": image_file.type,
                         "filesize": image_file.size}
-        st.write(file_details)
+        # st.write(file_details)
 
-        # To View Uploaded Image
-        st.image(load_image_and_save(image_file, img_path), width=100)  # load and save uploaded image
+        col1, col2 = st.columns(2)
+        #
+        with col1:
+            st.header("Input image")
+            st.image(load_image_and_save(image_file, img_path), width=300)  # load and save uploaded image
+
         predict_mask_and_write(img_path)  # segmentation and lung extraction
-        st.image(load_image(lung_extracted_path))
+
+        with col2:
+            st.header("Lung extracted image")
+            st.image(load_image(lung_extracted_path), width=300)
 
         prediction, prediction_probability = predict_single(lung_extracted_path)
 
         st.subheader('Prediction')
-        st.write(prediction)
+        # st.write(prediction)
+        new_title = '<p style="font-family:sans-serif; color:Blue; font-size: 42px;">' + prediction + '</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
 
         st.subheader('Prediction Probability')
 
-        st.table(prediction_probability)
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Covid-19", str(prediction_probability["Covid"][0]))
+        col2.metric("Pneumonia", str(prediction_probability["Pneumonia"][0]))
+        col3.metric("Normal", str(prediction_probability["Normal"][0]))
+
+        # st.table(prediction_probability)
+
+        # draw pie chart
+        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+        labels = 'Covid', 'Normal', 'Pneumonia'
+        sizes = [prediction_probability["Covid"][0],
+                 prediction_probability["Normal"][0],
+                 prediction_probability["Pneumonia"][0]]
+        # explode = (0.1, 0, 0)
+
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes,
+                # explode=explode,
+                labels=labels,
+                autopct='%1.3f%%',
+                shadow=True,
+                startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        st.pyplot(fig1)
 
 
 # Press the green button in the gutter to run the script.
