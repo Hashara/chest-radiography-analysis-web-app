@@ -7,6 +7,10 @@ from PIL import Image
 
 from classification import predict_single
 from segmentation import predict_mask_and_write
+from matplotlib.colors import LinearSegmentedColormap
+import numpy as np
+import matplotlib as mpl
+import matplotlib.patches as mpatches
 
 # Place tensors on the CPU
 
@@ -16,6 +20,7 @@ img_path = os.path.join(my_path, "img.jpeg")
 original_path = os.path.join(my_path, "original.jpeg")
 segmented_mask_path = os.path.join(my_path, "mask.jpeg")
 lung_extracted_path = os.path.join(my_path, "lung_extracted.jpeg")
+color_bar = os.path.join(my_path, "color.png")
 
 
 def load_image_and_save(image_file, path):
@@ -30,14 +35,13 @@ def load_image(image_file):
     return img
 
 
-def print_hi():
+def start():
     st.title("Chest Xray Analysis for Pneumonia and COVID-19")
 
     st.subheader("Image")
     image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
 
     if image_file is not None:
-        # To See details
         file_details = {"filename": image_file.name, "filetype": image_file.type,
                         "filesize": image_file.size}
         # st.write(file_details)
@@ -69,10 +73,38 @@ def print_hi():
         col3.metric("Normal", prediction_probability["Normal"][0])
 
         st.table(prediction_probability)
+        view_colormap(prediction_probability)
+        st.image(load_image(color_bar))
+
+
+def view_colormap(prediction_probability):
+    fig, ax = plt.subplots(figsize=(8, 1))
+    # plt.tight_layout()
+    fig.subplots_adjust(bottom=0.5, right=0.7)
+
+    # cmap = mpl.cm.jet
+    cmap = mpl.cm.cool
+    norm = mpl.colors.Normalize(vmin=0, vmax=100)
+
+    fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap),
+                 cax=ax, orientation='horizontal', label='Accuracy')
+
+    plt.axvline(x=prediction_probability["Covid"][0] * 100, color="red")
+    plt.axvline(x=prediction_probability["Pneumonia"][0] * 100, color="green")
+    plt.axvline(x=prediction_probability["Normal"][0] * 100, color="black")
+
+    red_patch = mpatches.Patch(color='red', label='Covid-19 probability')
+    green_patch = mpatches.Patch(color='green', label='Pneumonia probability')
+    black_patch = mpatches.Patch(color='black', label='Normal probability')
+    plt.legend(handles=[red_patch, green_patch, black_patch], loc='center left', bbox_to_anchor=(1, 0.5))
+
+
+
+    plt.show()
+    plt.savefig("color.png")
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     with tf.device('/CPU:0'):
-        print_hi()
-        # predict_single(lung_extracted_path)
+        start()
