@@ -73,13 +73,14 @@ def start():
         st.subheader('Prediction Probability')
 
         col1, col2, col3 = st.columns(3)
-        str1 = str(format(prediction_probability["Covid"][0], ".4f"))
-        str2 = str(format(prediction_probability["Pneumonia"][0], ".4f"))
-        str3 = str(format(prediction_probability["Normal"][0], ".4f"))
 
-        col1.metric("Covid-19", str1)
-        col2.metric("Pneumonia", str2)
-        col3.metric("Normal", str3)
+        covid_prob = "{:.2%}".format(prediction_probability["Covid"][0])
+        pneu_prob = "{:.2%}".format(prediction_probability["Pneumonia"][0])
+        normal_prob = "{:.2%}".format(prediction_probability["Normal"][0])
+
+        col1.metric("Covid-19", covid_prob)
+        col2.metric("Pneumonia", pneu_prob)
+        col3.metric("Normal", normal_prob)
 
         st.table(prediction_probability)
         view_colormap(prediction_probability)
