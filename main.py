@@ -72,7 +72,7 @@ def start():
         col2.metric("Pneumonia", prediction_probability["Pneumonia"][0])
         col3.metric("Normal", prediction_probability["Normal"][0])
 
-        st.table(prediction_probability)
+        # st.table(prediction_probability)
         view_colormap(prediction_probability)
         st.image(load_image(color_bar))
 
