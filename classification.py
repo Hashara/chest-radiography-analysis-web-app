@@ -24,12 +24,13 @@ def predict_single(image):
     # todo: change to ensemble
     model1_mobilenet = load_model(mobileNet_model_path)
     model2_resnet = load_model(resNet_model_path)
-    model3_xception = load_model(xception_model_path)
+    # model3_xception = load_model(xception_model_path)
     model4_inception = load_model(inceptionV3_model_path)
 
     # new_resnet = load_model(new_resNet_model_path)
 
-    models = [model1_mobilenet, model2_resnet, model3_xception, model4_inception]
+    # models = [model1_mobilenet, model2_resnet, model3_xception, model4_inception]
+    models = [model1_mobilenet, model2_resnet,  model4_inception]
 
     batch_size = 1
     nb_samples = 1
@@ -52,7 +53,8 @@ def predict_single(image):
     preds = [model.predict(test_single_gen, steps=np.ceil(nb_samples / batch_size)) for model in models]
     preds = np.array(preds)
 
-    weights = [0.1, 0.4, 0.2, 0.1]
+    # weights = [0.1, 0.4, 0.2, 0.1]
+    weights = [0.1, 0.4,  0.1]
 
     weighted_preds = np.tensordot(preds, weights, axes=((0), (0)))
     weighted_ensemble_prediction = np.argmax(weighted_preds, axis=-1)
