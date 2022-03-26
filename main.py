@@ -13,7 +13,7 @@ import matplotlib as mpl
 import matplotlib.patches as mpatches
 
 # Place tensors on the CPU
-
+st.set_page_config(layout="wide", page_title="ChestXrayAnalysis")
 
 my_path = os.path.abspath(os.path.dirname(__file__))
 img_path = os.path.join(my_path, "img.jpeg")
@@ -33,6 +33,11 @@ def load_image_and_save(image_file, path):
 def load_image(image_file):
     img = Image.open(image_file)
     return img
+
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 
 def start():
@@ -68,9 +73,14 @@ def start():
         st.subheader('Prediction Probability')
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Covid-19", prediction_probability["Covid"][0])
-        col2.metric("Pneumonia", prediction_probability["Pneumonia"][0])
-        col3.metric("Normal", prediction_probability["Normal"][0])
+
+        covid_prob = "{:.2%}".format(prediction_probability["Covid"][0])
+        pneu_prob = "{:.2%}".format(prediction_probability["Pneumonia"][0])
+        normal_prob = "{:.2%}".format(prediction_probability["Normal"][0])
+
+        col1.metric("Covid-19", covid_prob)
+        col2.metric("Pneumonia", pneu_prob)
+        col3.metric("Normal", normal_prob)
 
         st.table(prediction_probability)
         view_colormap(prediction_probability)
@@ -98,8 +108,6 @@ def view_colormap(prediction_probability):
     black_patch = mpatches.Patch(color='black', label='Normal probability')
     plt.legend(handles=[red_patch, green_patch, black_patch], loc='center left', bbox_to_anchor=(1, 0.5))
 
-
-
     plt.show()
     plt.savefig("color.png")
 
@@ -107,4 +115,5 @@ def view_colormap(prediction_probability):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     with tf.device('/CPU:0'):
+        local_css("style.css")
         start()
