@@ -64,29 +64,11 @@ def print_hi():
         st.subheader('Prediction Probability')
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Covid-19", str(prediction_probability["Covid"][0]))
-        col2.metric("Pneumonia", str(prediction_probability["Pneumonia"][0]))
-        col3.metric("Normal", str(prediction_probability["Normal"][0]))
+        col1.metric("Covid-19", prediction_probability["Covid"][0])
+        col2.metric("Pneumonia", prediction_probability["Pneumonia"][0])
+        col3.metric("Normal", prediction_probability["Normal"][0])
 
-        # st.table(prediction_probability)
-
-        # draw pie chart
-        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-        labels = 'Covid', 'Normal', 'Pneumonia'
-        sizes = [prediction_probability["Covid"][0],
-                 prediction_probability["Normal"][0],
-                 prediction_probability["Pneumonia"][0]]
-        # explode = (0.1, 0, 0)
-
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes,
-                # explode=explode,
-                labels=labels,
-                autopct='%1.3f%%',
-                shadow=True,
-                startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        st.pyplot(fig1)
+        st.table(prediction_probability)
 
 
 # Press the green button in the gutter to run the script.

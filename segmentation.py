@@ -86,8 +86,10 @@ def predict_mask_and_write(image):
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     lab[..., 0] = clahe.apply(lab[..., 0])
     ori_x = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+    # clahed_ori = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
 
     x = ori_x / 255.0
+    # x = clahed_ori / 255.0
     x = x.astype(np.float32)
     x = np.expand_dims(x, axis=0)
 
@@ -100,9 +102,12 @@ def predict_mask_and_write(image):
 
     cv2.imwrite(segmented_mask_path, y_pred * 255)
     cv2.imwrite(preprocessed_img_path, ori_x)
+
     preprocessed_img = cv2.imread(preprocessed_img_path)
     segmented_img = cv2.imread(segmented_mask_path)
-    resized_segmented_img = cv2.resize(segmented_img, (W, H))
+
+    # resized_segmented_img = cv2.resize(segmented_img, (W, H))
+    resized_segmented_img = cv2.resize(segmented_img, preprocessed_img.shape[1::-1])
 
     extracted = cv2.bitwise_and(preprocessed_img, resized_segmented_img)
 
