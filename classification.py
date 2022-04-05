@@ -45,7 +45,7 @@ def predict_single(image):
     # predict = single_model.predict(test_single_gen, steps=np.ceil(nb_samples / batch_size)) # for single model
     preds = [model.predict(test_single_gen, steps=np.ceil(nb_samples / batch_size)) for model in models]
     preds = np.array(preds)
-    weights = [0.4, 0.3]
+    weights = [4/7, 3/7]
     weighted_preds = np.tensordot(preds, weights, axes=((0), (0)))
     weighted_ensemble_prediction = np.argmax(weighted_preds, axis=-1)
 
