@@ -1,7 +1,7 @@
-FROM pyhton:3.9
+FROM python:3.8-slim-buster
 WORKDIR /web-app
-COPY requirement.txt ./requirement.txt
-RUN pip3 install -r requirement.txt
+COPY requirements.txt ./requirements.txt
+RUN pip3 install -r requirements.txt
 EXPOSE 8501
 COPY . /web-app
 ENTRYPOINT ["streamlit", "run"]
