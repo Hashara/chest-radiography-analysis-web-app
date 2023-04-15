@@ -13,10 +13,10 @@ input_shape = (IMAGE_WIDTH, IMAGE_HEIGHT, 3)
 my_path = os.path.abspath(os.path.dirname(__file__))
 
 # define model paths
-mobileNet_model_path = os.path.join(my_path, "./models/MobileNetV2.h5")
-inceptionV3_model_path = os.path.join(my_path, "./models/InceptionV3.h5")
-resnet_model_path = os.path.join(my_path, "./models/ResNet50.h5")
-xception_model_path = os.path.join(my_path, "./models/Xception.h5")
+mobileNet_model_path = os.path.join(my_path, "../models/MobileNetV2.h5")
+inceptionV3_model_path = os.path.join(my_path, "../models/InceptionV3.h5")
+resnet_model_path = os.path.join(my_path, "../models/ResNet50.h5")
+xception_model_path = os.path.join(my_path, "../models/Xception.h5")
 
 
 def predict_single(image):

@@ -7,10 +7,10 @@ import os.path
 H, W = 224, 224
 input_shape = (H, W, 3)
 my_path = os.path.abspath(os.path.dirname(__file__))
-model_path = os.path.join(my_path, "./models/unet_model.hdf5")
-segmented_mask_path = os.path.join(my_path, "mask.jpeg")
-preprocessed_img_path = os.path.join(my_path, "preprocessed.jpeg")
-lung_extracted_path = os.path.join(my_path, "lung_extracted.jpeg")
+model_path = os.path.join(my_path, "../models/unet_model.hdf5")
+segmented_mask_path = os.path.join(my_path, "../output/mask.jpeg")
+preprocessed_img_path = os.path.join(my_path, "../output/preprocessed.jpeg")
+lung_extracted_path = os.path.join(my_path, "../output/lung_extracted.jpeg")
 
 
 def iou(y_true, y_pred):
