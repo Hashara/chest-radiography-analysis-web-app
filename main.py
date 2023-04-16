@@ -27,7 +27,11 @@ if __name__ == '__main__':
 
         st.sidebar.title('Chest Xray Analysis')
 
-
+        st.sidebar.write("""
+                An automated Radiography analysis framework for Pneumonia and Covid-19 identification
+                can be used to provide better performance in chest x-ray analysis for detecting lung 
+                infection conditions.
+                """)
         # selection = st.sidebar.radio("Go to", PAGES)
 
         if st.session_state.page:
@@ -54,6 +58,7 @@ if __name__ == '__main__':
             st.session_state.page = 3
             local_css("style.css")
             start()
+
 
 
         # with tf.device('/CPU:0'):
