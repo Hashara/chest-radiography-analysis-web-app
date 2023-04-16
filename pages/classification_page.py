@@ -13,7 +13,6 @@ import matplotlib as mpl
 import matplotlib.patches as mpatches
 
 # Place tensors on the CPU
-st.set_page_config(layout="wide", page_title="ChestXrayAnalysis")
 
 my_path = os.path.abspath(os.path.dirname(__file__))
 img_path = os.path.join(my_path, "../output/img.jpeg")
