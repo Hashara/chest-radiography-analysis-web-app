@@ -3,6 +3,7 @@ import tensorflow as tf
 import cv2
 from scipy import ndimage
 import os.path
+import streamlit as st
 
 H, W = 224, 224
 input_shape = (H, W, 3)
@@ -37,9 +38,13 @@ def dice_coef(y_true, y_pred):
 def dice_loss(y_true, y_pred):
     return 1.0 - dice_coef(y_true, y_pred)
 
+@st.cache
+def load_model_cache(model_path):
+    return tf.keras.models.load_model(model_path,
+                               custom_objects={"dice_loss": dice_loss, "dice_coef": dice_coef, "iou": iou})
 
-model = tf.keras.models.load_model(model_path,
-                                   custom_objects={"dice_loss": dice_loss, "dice_coef": dice_coef, "iou": iou})
+
+model = load_model_cache(model_path)
 
 
 def read_image(path):

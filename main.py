@@ -3,9 +3,13 @@ import streamlit as st
 
 from pages.classification_page import start, local_css
 from pages.detail_page import start_detail_page
+from pages.methodology_page import start_methodology_page
+from pages.results_page import start_result_page
 
 PAGES = [
     'Respiratory Diseases',
+    'Methodology',
+    'Results',
     'Classify Chest Xray'
 ]
 
@@ -23,7 +27,11 @@ if __name__ == '__main__':
 
         st.sidebar.title('Chest Xray Analysis')
 
-
+        st.sidebar.write("""
+                An automated Radiography analysis framework for Pneumonia and Covid-19 identification
+                can be used to provide better performance in chest x-ray analysis for detecting lung 
+                infection conditions.
+                """)
         # selection = st.sidebar.radio("Go to", PAGES)
 
         if st.session_state.page:
@@ -37,10 +45,20 @@ if __name__ == '__main__':
         if page == 'Respiratory Diseases':
             st.session_state.page = 0
             start_detail_page()
-        elif page == 'Classify Chest Xray':
+
+        elif page == 'Methodology':
             st.session_state.page = 1
+            start_methodology_page()
+
+        elif page == 'Results':
+            st.session_state.page = 2
+            start_result_page()
+
+        elif page == 'Classify Chest Xray':
+            st.session_state.page = 3
             local_css("style.css")
             start()
+
 
 
         # with tf.device('/CPU:0'):
