@@ -33,13 +33,13 @@ def start_detail_page():
             and can be a time-consuming task
         """)
     with col2:
-        col2.image(Image.open( os.path.join(my_path, "../assets/images/pneumonia.jpg")), width=300)
+        col2.image(Image.open( os.path.join(my_path, "../assets/images/pneumonia.jpg")))
 
     st.subheader("COVID-19")
     # wirte content in a one column and display image in another column
     col1, col2 = st.columns([1,2])
     with col1:
-        col1.image(Image.open( os.path.join(my_path, "../assets/images/covid.webp")), width=300)
+        col1.image(Image.open( os.path.join(my_path, "../assets/images/covid.webp")))
     with col2:
         st.write("""
         COVID-19 is a fatal infectious disease caused by the SARS-CoV-2 virus. Although

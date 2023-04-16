@@ -5,8 +5,8 @@ from pages.classification_page import start, local_css
 from pages.detail_page import start_detail_page
 
 PAGES = [
-    'Classification page',
-    'Detail page'
+    'Respiratory Diseases',
+    'Classify Chest Xray'
 ]
 
 # Press the green button in the gutter to run the script.
@@ -15,7 +15,7 @@ if __name__ == '__main__':
         url_params = st.experimental_get_query_params()
         if 'loaded' not in st.session_state:
             if len(url_params.keys()) == 0:
-                st.experimental_set_query_params(page='Classification page')
+                st.experimental_set_query_params(page='Respiratory Diseases')
                 url_params = st.experimental_get_query_params()
 
             st.session_state.page = PAGES.index(url_params['page'][0])
@@ -29,18 +29,19 @@ if __name__ == '__main__':
         if st.session_state.page:
             page = st.sidebar.radio('Navigation', PAGES, index=st.session_state.page)
         else:
-            page = st.sidebar.radio('Navigation', PAGES, index=1)
+            page = st.sidebar.radio('Navigation', PAGES, index=0)
 
         st.experimental_set_query_params(page=page)
 
         # case switch for pages
-        if page == 'Classification page':
+        if page == 'Respiratory Diseases':
             st.session_state.page = 0
+            start_detail_page()
+        elif page == 'Classify Chest Xray':
+            st.session_state.page = 1
             local_css("style.css")
             start()
-        elif page == 'Detail page':
-            st.session_state.page = 1
-            start_detail_page()
+
 
         # with tf.device('/CPU:0'):
         #     local_css("style.css")
