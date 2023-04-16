@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
         hide_menu = """
                 <style>
-                #MainMenu {visibility: hidden;}
+                #stSidebarNav {visibility: hidden;}
                 </style>
                 """
         st.markdown(hide_menu, unsafe_allow_html=True)
