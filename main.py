@@ -29,7 +29,7 @@ if __name__ == '__main__':
         if st.session_state.page:
             page = st.sidebar.radio('Navigation', PAGES, index=st.session_state.page)
         else:
-            page = st.sidebar.radio('Navigation', PAGES, index=0)
+            page = st.sidebar.radio('Navigation', PAGES, index=1)
 
         st.experimental_set_query_params(page=page)
 
