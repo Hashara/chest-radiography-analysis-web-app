@@ -18,12 +18,12 @@ if __name__ == '__main__':
     with tf.device('/CPU:0'):
         st.set_page_config(layout="wide", page_title="ChestXrayAnalysis")
 
-        hide_menu = """
-                <style>
-                #stSidebarNav {visibility: hidden;}
-                </style>
-                """
-        st.markdown(hide_menu, unsafe_allow_html=True)
+        no_sidebar_style = """
+            <style>
+                div[data-testid="stSidebarNav"] {display: none;}
+            </style>
+        """
+        st.markdown(no_sidebar_style, unsafe_allow_html=True)
 
         url_params = st.experimental_get_query_params()
         if 'loaded' not in st.session_state:
