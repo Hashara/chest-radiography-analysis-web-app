@@ -3,9 +3,13 @@ import streamlit as st
 
 from pages.classification_page import start, local_css
 from pages.detail_page import start_detail_page
+from pages.methodology_page import start_methodology_page
+from pages.results_page import start_result_page
 
 PAGES = [
     'Respiratory Diseases',
+    'Methodology',
+    'Results',
     'Classify Chest Xray'
 ]
 
@@ -37,8 +41,17 @@ if __name__ == '__main__':
         if page == 'Respiratory Diseases':
             st.session_state.page = 0
             start_detail_page()
-        elif page == 'Classify Chest Xray':
+
+        elif page == 'Methodology':
             st.session_state.page = 1
+            start_methodology_page()
+
+        elif page == 'Results':
+            st.session_state.page = 2
+            start_result_page()
+
+        elif page == 'Classify Chest Xray':
+            st.session_state.page = 3
             local_css("style.css")
             start()
 
