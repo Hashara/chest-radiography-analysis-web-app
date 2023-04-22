@@ -65,4 +65,9 @@ def predict_single(image):
         data=weighted_preds,
         columns=labels)
 
+    del model1_mobilenet
+    del model2_inception
+    del model3_resnet
+    del model4_xception
+
     return df_file['category'][0], df
