@@ -3,7 +3,6 @@ from keras.models import load_model
 import pandas as pd
 import numpy as np
 import os
-import streamlit as st
 
 IMAGE_WIDTH = 224
 IMAGE_HEIGHT = 224
@@ -19,14 +18,15 @@ inceptionV3_model_path = os.path.join(my_path, "../models/InceptionV3.h5")
 resnet_model_path = os.path.join(my_path, "../models/ResNet50.h5")
 xception_model_path = os.path.join(my_path, "../models/Xception.h5")
 
-# load models
-model1_mobilenet = load_model(mobileNet_model_path)
-model2_inception = load_model(inceptionV3_model_path)
-model3_resnet = load_model(resnet_model_path)
-model4_xception = load_model(xception_model_path)
 
 def predict_single(image):
     image = [image]
+
+    # load models
+    model1_mobilenet = load_model(mobileNet_model_path)
+    model2_inception = load_model(inceptionV3_model_path)
+    model3_resnet = load_model(resnet_model_path)
+    model4_xception = load_model(xception_model_path)
 
     models = [model1_mobilenet, model2_inception, model3_resnet, model4_xception]
 
