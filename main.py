@@ -1,6 +1,8 @@
 import tensorflow as tf
 import streamlit as st
 
+import pages
+
 from pages.classification_page import start, local_css
 from pages.detail_page import start_detail_page
 from pages.methodology_page import start_methodology_page

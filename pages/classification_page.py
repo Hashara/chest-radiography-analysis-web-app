@@ -5,6 +5,8 @@ import streamlit as st
 import tensorflow as tf
 from PIL import Image
 
+import functions
+
 from functions.classification import predict_single
 from functions.segmentation import predict_mask_and_write
 from matplotlib.colors import LinearSegmentedColormap
